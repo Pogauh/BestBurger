@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{parent()}}Mon compte{% endblock %}
+
+{% block body %}
+
+<style>
+.medium{
+    font-size: medium;
+}
+.large {
+    font-size:large;
+}
+.small{
+    font-size : small;
+}
+.Déconnexion{
+    text-decoration: underline;
+        font-size: medium;
+        text-align : center;
+
+}
+
+</style>
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 card ">
+        <h1  class="text-center small"> Acceuil / Compte</h1>
+        <h1 class=" text-center large"> Mon compte </h1>
+        <div class="card">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-4">
+        <img src="image/Pasdimage.png" class="img-fluid rounded-circle">
+      </div>
+      <div class="col-md-8">
+        <h5 class="card-title">{{app.user.nom}}{{app.user.prenom}}</h5>
+        <p class="card-text">{{app.user.email}}</p>
+        <p class="card-text">{{app.user.telephone}}</p>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+    </div>
+    <div class="col-md-6 card ">
+        <div class="float-right">
+          <h1 href="" class="text-center medium "> Mes commandes</h1>
+          
+
+        </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

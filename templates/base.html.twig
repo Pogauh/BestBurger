@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Folie des fondants {% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+        {% block stylesheets %}
+        <!--Boostraps CSS-->
+    <link href="https://bootswatch.com/5/lux/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+ 
+        {% endblock %}
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    </head>
+    <body>
+
+    <!--Barre de Navigation-->
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">    
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{{path('index')}}">Acceuil</a>
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+        <li class="nav-item">
+          <a class="nav-link" href="">Article</a>
+        </li>
+     
+        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_MOD')%}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Administration</a>
+           <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="private-liste-utilisateur">Liste des utilisateurs</a></li>
+            <li><a class="dropdown-item" href="private-liste-contact">Liste des contacts</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="private-ajout-articles">Ajouter un article</a></li>
+          </ul>
+        </li>
+        {% endif %}
+
+         <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false">Contact</a>
+           <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="">Contact</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{{path('cgv')}}">CGV</a></li>
+            <li><a class="dropdown-item" href="{{path('mentionlegale')}}">Mentions légales</a></li>
+          </ul>
+        </li>
+
+        {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+							<li class="nav-item">
+								<a class="nav-link text-white" href="{{path('app_login')}}">Se connecter
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link text-white" href="{{path('app_register')}}">S'inscrire
+								</a>
+							</li>
+						{% else %}
+	          	<li class="nav-item">
+	             <a class="nav-link text-white" href="{{path('app_logout')}}"> {{app.user.email}}
+		        	 <i class="bi bi-x-circle-fill text-white"></i>
+	         	   </a>
+	          	</li>
+            {% endif %}
+
+              {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+              <a class="btn btn-outline-light " href="{{path('account')}}">Mon compte</a>
+              {% else %}
+              <a class="btn btn-outline-light" href="{{path('app_login')}}">Mon compte</a>
+              {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    {% for message in app.flashes('notice') %}
+      <h2 class="alert alert-warning text-center mt-4 mb-4" role="alert">
+        {{ message }}
+      </h2>
+    {% endfor %}
+
+        {% block body %}{% endblock %}
+
+        
+      <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"> </script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+      <script src""></script>
+    </body>
+   
+
+</html>
+
+
+
+
+
+
+

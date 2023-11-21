@@ -1,0 +1,68 @@
+composer require symfony/maker-bundle --dev
+composer require annotation
+composer require symfony/twig-bundle
+php bin/console make:controller
+    Base
+composer require symfony/apache-pack
+    y
+
+
+
+insertions dans base.html.twig :     
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   {% block stylesheets %}
+    <!-- Bootstrap CSS -->
+    <link href="https://bootswatch.com/5/lux/bootstrap.min.css" rel="stylesheet">
+   {% endblock %}
+    <title>{% block title %}Share - {% endblock %}</title>
+
+
+
+------------------------------ROUTES -----------------------------------------
+ajouter à Route.yaml : 
+    index:
+        path: /
+        controller: App\Controller\BaseController::index
+
+
+    ca donne ici : 
+
+
+    controllers:
+    resource:
+        index: /
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+index:
+    path: /
+    controller: App\Controller\BaseController::index
+
+
+    -------------------------------------------------------------------------
+
+
+composer require symfony/form
+
+EN ROOT : apt install postfix
+composer require symfony/mailer
+composer require twig/extra-bundle twig/cssinliner-extra
+
+###> symfony/mailer ###
+MAILER_DSN=smtp://localhost?verify_peer=0
+###< symfony/mailer ###
+
+inserer dans baseController : 
+use Symfony\Component\Mailer\MailerInterface;
+composer require symfony/orm-pack
+ ( ca bug alors jai fait : composer require symfony/orm-pack --with-all-dependencies)
+composer require --dev symfony/maker-bundle --dev
+php bin/console make:user
+php bin/console make:auth
+
+composer require symfonycasts/verify-email-bundle
+composer require validator
+php bin/console make:registration-form
+
+Dans AppCustomAuthenticator modifié a lignes 53:   
+    return new RedirectResponse($this->urlGenerator->generate('index'));
