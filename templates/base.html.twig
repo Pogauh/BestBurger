@@ -2,14 +2,17 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Folie des fondants {% endblock %}</title>
+        <title>{% block title %}Burger{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
         <!--Boostraps CSS-->
     <link href="https://bootswatch.com/5/lux/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">   -->
+    <link rel="stylesheet" href="{{asset('css/style.css')}}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
  
         {% endblock %}
 
@@ -21,68 +24,48 @@
 
     <!--Barre de Navigation-->
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">    
-  <div class="container-fluid">
-    <a class="navbar-brand" href="{{path('index')}}">Acceuil</a>
+    <!-- Bouton rectangle en haut à gauche -->
+    <button class="button-17 top-left">06.01.02.03.04</button>
+
+    {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+      <li class="nav-item">
+        <a class="nav-link text-white" href="{{path('app_login')}}">Se connecter
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" href="{{path('app_register')}}">S'inscrire
+        </a>
+      </li>
+    {% else %}
+      <a class="button-17 top-right" href="{{ path('account') }}">Mon compte
+      </a>
+    {% endif %}
     
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-        <li class="nav-item">
-          <a class="nav-link" href="">Article</a>
-        </li>
-     
-        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_MOD')%}
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Administration</a>
-           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="private-liste-utilisateur">Liste des utilisateurs</a></li>
-            <li><a class="dropdown-item" href="private-liste-contact">Liste des contacts</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="private-ajout-articles">Ajouter un article</a></li>
-          </ul>
-        </li>
-        {% endif %}
 
-         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false">Contact</a>
-           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="">Contact</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="{{path('cgv')}}">CGV</a></li>
-            <li><a class="dropdown-item" href="{{path('mentionlegale')}}">Mentions légales</a></li>
-          </ul>
-        </li>
+    <!-- Logo au milieu en haut -->
+    <a href="{{path('index')}}">
+      <img src="assets/burgerSF.png" alt="Logo" class="logo">
+    </a>
+        
 
-        {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
-							<li class="nav-item">
-								<a class="nav-link text-white" href="{{path('app_login')}}">Se connecter
-								</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link text-white" href="{{path('app_register')}}">S'inscrire
-								</a>
-							</li>
-						{% else %}
-	          	<li class="nav-item">
-	             <a class="nav-link text-white" href="{{path('app_logout')}}"> {{app.user.email}}
-		        	 <i class="bi bi-x-circle-fill text-white"></i>
-	         	   </a>
-	          	</li>
-            {% endif %}
-
-              {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-              <a class="btn btn-outline-light " href="{{path('account')}}">Mon compte</a>
-              {% else %}
-              <a class="btn btn-outline-light" href="{{path('app_login')}}">Mon compte</a>
-              {% endif %}
+    <!-- Navbar -->
+    <nav class="navbar">
+      <ul>
+        <li><a href="{{path('burger')}}">Burger</a></li>
+        <li><a href="{{path('wrap')}}">wrap</a></li>
+        <li><a href="{{path('sandwich')}}">Sandwich</a></li>
+        <li><a href="{{path('petiteFaim')}}">Petite faim</a></li>
+        <li><a href="{{path('dessert')}}">Dessert</a></li>
+        <li><a href="#frites">Frites</a></li>
       </ul>
+    </nav>
+
+    <div class="h-52 bg-white-500">
+      <!-- Contenu de votre div -->
     </div>
-  </div>
-</nav>
+
+
 
     {% for message in app.flashes('notice') %}
       <h2 class="alert alert-warning text-center mt-4 mb-4" role="alert">
@@ -91,12 +74,16 @@
     {% endfor %}
 
         {% block body %}{% endblock %}
-
-        
       <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"> </script>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
-      <script src""></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
+      <script type="module" src="JS/main.js"> </script>
     </body>
+
+    <div class="bg-red-500 w-full h-40 cm mt-10" id="info1"></div>
+    <div class="bg-black w-full h-40 cm"></div>
+
+
    
 
 </html>

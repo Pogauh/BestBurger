@@ -2,10 +2,27 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\CategorieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+
+
+use Symfony\Component\Serializer\Annotation\Groups;
+
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+
+
+#[ApiResource( 
+    operations:[new Get(normalizationContext:['groups'=>'categorie:item']),
+            new GetCollection(normalizationContext:['groups'=>'categorie:list']),
+            ]
+            )]
+            #[ApiFilter(OrderFilter::class, properties:['nom' => 'ASC'])]
+            
+
 
 #[ORM\Entity(repositoryClass: CategorieRepository::class)]
 class Categorie
@@ -13,12 +30,15 @@ class Categorie
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[groups(['produit:list','produit:item','categorie:list','categorie:item'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[groups(['produit:list','produit:item','categorie:list','categorie:item'])]
     private ?string $name = null;
 
     #[ORM\OneToMany(mappedBy: 'categorie', targetEntity: Produit::class)]
+    #[groups(['categorie:list','categorie:item'])]
     private Collection $produits;
 
     public function __construct()

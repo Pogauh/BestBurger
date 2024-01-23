@@ -2,8 +2,26 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\ProduitRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+
+use Symfony\Component\Serializer\Annotation\Groups;
+
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+
+
+#[ApiResource( 
+    operations:[new Get(normalizationContext:['groups'=>'produit:item']),
+            new GetCollection(normalizationContext:['groups'=>'produit:list']),
+            ]
+            )]
+            #[ApiFilter(OrderFilter::class, properties:['nom' => 'ASC'])]
+            
+
 
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
 class Produit
@@ -11,15 +29,19 @@ class Produit
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[groups(['produit:list','produit:item'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'produits')]
+    #[groups(['produit:list','produit:item'])]
     private ?Categorie $categorie = null;
 
     #[ORM\Column(length: 255)]
+    #[groups(['produit:list','produit:item','categorie:list','categorie:item'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
+    #[groups(['produit:list','produit:item'])]
     private ?string $description = null;
 
     #[ORM\Column]

@@ -52,4 +52,47 @@ class BaseController extends AbstractController
         return $this->render('base/compte.html.twig', [
         ]);
     }
+
+    #[Route('/test', name: 'test')]
+    public function test(): Response
+    {
+        return $this->render('base/test.html.twig', [
+        ]);
+    }
+
+    #[Route('/burger', name: 'burger')]
+    public function burger(): Response
+    {
+        return $this->render('produit/burger.html.twig', [
+        ]);
+    }
+
+    #[Route('/wrap', name: 'wrap')]
+    public function wrap(): Response
+    {
+        return $this->render('produit/wrap.html.twig', [
+        ]);
+    }
+
+
+    #[Route('/dessert', name: 'dessert')]
+    public function dessert(): Response
+    {
+        return $this->render('produit/dessert.html.twig', [
+        ]);
+    }
+
+    #[Route('/sandwich', name: 'sandwich')]
+    public function sandwich(): Response
+    {
+        return $this->render('produit/sandwich.html.twig', [
+        ]);
+    }
+
+    #[Route('/petiteFaim', name: 'petiteFaim')]
+    public function petiteFaim(): Response
+    {
+        return $this->render('produit/petiteFaim.html.twig', [
+        ]);
+    }
 }
