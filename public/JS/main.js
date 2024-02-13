@@ -1,37 +1,45 @@
 import {getProduits} from './api_produit.js ';
 
 document.addEventListener("DOMContentLoaded", function() {
-        var navbar = document.querySelector(".navbar");
-        var logo = document.querySelector(".logo");
-        
+    var navbarGrand = document.querySelector(".navbarGrand");
+    var navbarPetit = document.querySelector(".navbarPetit");
+    var ButtonNavPetit = document.querySelector('.buttonNavPetit');
+    var logo = document.querySelector(".logo");
 
-        window.addEventListener("scroll", function() {
-            // Ajouter ou supprimer la classe "hidden" de la navbar
-            if (window.scrollY > 50) {
-                navbar.classList.add("hidden");
-            } else {
-                navbar.classList.remove("hidden");
-            }
-
-            // Ajouter ou supprimer la classe "small-logo" du logo
-            if (window.scrollY > 100) {
-                logo.classList.add("small-logo");
-            } else {
-                logo.classList.remove("small-logo");
-            }
-        });
+    ButtonNavPetit.addEventListener('click', function () {
+        navbarPetit.classList.toggle('hidden');
+        navbarPetit.classList.add("fixed");
     });
+
+    window.addEventListener("scroll", function() {
+        if (window.innerWidth > 1024) {
+            if (window.scrollY > 50) {
+                navbarGrand.classList.add("scrolled");
+            } else {
+                navbarGrand.classList.remove("scrolled");
+            }
+        }
+    
+
+        // Ajouter ou supprimer la classe "small-logo" du logo
+        if (window.scrollY > 100) {
+            logo.classList.add("small-logo");
+        } else {
+            logo.classList.remove("small-logo");
+        }
+    });
+});
 
     async function afficherBurger() {
         try {
             const produits = await getProduits();
             var lesProduits = produits["hydra:member"];
+            console.log(produits);
     
             var container = document.getElementById('container');
             var elementsParLigne = 4;
             var elementsDansLaLigne = 0;
             var divLigne;  // Variable pour stocker la ligne actuelle
-            console.log(produits);
             for (let produit of lesProduits) {
             if (produit.categorie.id === 1){
                 if (elementsDansLaLigne === 0) {
@@ -48,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 divCard.classList.add("w-60", "bg-white", "border", "border-gray-200", "rounded-lg", "shadow", "dark:bg-gray-800", "dark:border-gray-700", "mx-10");
                 
                 var img = document.createElement("img");
-                //img.src = "";
+                img.src = "assets/"+produit.image;
                 img.classList.add("rounded-t-lg");
     
                 var divDetail = document.createElement("div");
@@ -112,7 +120,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 divCard.classList.add("w-60", "bg-white", "border", "border-gray-200", "rounded-lg", "shadow", "dark:bg-gray-800", "dark:border-gray-700", "mx-10");
                 
                 var img = document.createElement("img");
-                //img.src = "";
+                img.src = "assets/"+produit.image;
                 img.classList.add("rounded-t-lg");
     
                 var divDetail = document.createElement("div");
@@ -177,7 +185,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 divCard.classList.add("w-60", "bg-white", "border", "border-gray-200", "rounded-lg", "shadow", "dark:bg-gray-800", "dark:border-gray-700", "mx-10");
                 
                 var img = document.createElement("img");
-                //img.src = "";
+                img.src = "assets/"+produit.image;
                 img.classList.add("rounded-t-lg");
     
                 var divDetail = document.createElement("div");
@@ -238,7 +246,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 divCard.classList.add("w-60", "bg-white", "border", "border-gray-200", "rounded-lg", "shadow", "dark:bg-gray-800", "dark:border-gray-700", "mx-10");
                 
                 var img = document.createElement("img");
-                //img.src = "";
+                img.src = "assets/"+produit.image;
                 img.classList.add("rounded-t-lg");
     
                 var divDetail = document.createElement("div");

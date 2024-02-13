@@ -7,17 +7,45 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
+
+use ApiPlatform\MetaData\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+
+
+/**
+ * @ORM\HasLifecycleCallbacks
+ * @ORM\EntityListeners({"App\EventListener\UserClientListener"})
+ */
+
+
+#[ApiResource( 
+    operations:[new Get(normalizationContext:['groups'=>'user:item']),
+            new GetCollection(normalizationContext:['groups'=>'user:list']),
+            new Patch(),
+            ]
+            )]
+            #[ApiFilter(OrderFilter::class, properties:['nom' => 'ASC'])]
+            
+
+
+
+
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[groups(['user:list','user:item'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[groups(['user:list','user:item'])]
     private ?string $email = null;
 
     #[ORM\Column]
@@ -33,16 +61,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $isVerified = false;
 
     #[ORM\Column(length: 30)]
+    #[groups(['user:list','user:item'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
+    #[groups(['user:list','user:item'])]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 30, nullable: true)]
+    #[groups(['user:list','user:item'])]
     private ?string $telephone = null;
 
     #[ORM\Column(nullable: true)]
+    #[groups(['user:list','user:item'])]
     private ?int $pointFidelite = null;
+
 
     public function getId(): ?int
     {
@@ -173,4 +206,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+   
 }

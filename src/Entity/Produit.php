@@ -45,10 +45,19 @@ class Produit
     private ?string $description = null;
 
     #[ORM\Column]
+    #[groups(['produit:list','produit:item'])]
+
     private ?float $prixSeul = null;
 
     #[ORM\Column]
+    #[groups(['produit:list','produit:item'])]
+
     private ?float $prixMenu = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[groups(['produit:list','produit:item'])]
+
+    private ?string $image = null;
 
     public function getId(): ?int
     {
@@ -111,6 +120,18 @@ class Produit
     public function setPrixMenu(float $prixMenu): static
     {
         $this->prixMenu = $prixMenu;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): static
+    {
+        $this->image = $image;
 
         return $this;
     }

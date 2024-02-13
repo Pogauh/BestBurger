@@ -16,28 +16,35 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 class RegistrationFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email', EmailType::class, ['attr' => ['class'=> 'form-control'], 'label_attr' => ['class'=> 'fw-bold']])
-            ->add('nom', TextType::class, ['attr' => ['class'=> 'form-control'], 'label_attr' => ['class'=> 'fw-bold']])
-            ->add('prenom', TextType::class, ['attr' => ['class'=> 'form-control'], 'label_attr' => ['class'=> 'fw-bold']])
-            ->add('telephone', NumberType::class, ['attr' => ['class'=> 'form-control'], 'label_attr' => ['class'=> 'fw-bold']])
-            ->add('envoyer', SubmitType::class, ['attr' => ['class'=> 'btn bg-primary text-white m-4' ], 'row_attr' => ['class' => 'text-center'],])
-
-
-            ->add('agreeTerms', CheckboxType::class, [
-                'mapped' => false,
-                'constraints' => [
-                    new IsTrue([
-                        'message' => 'You should agree to our terms.',
-                    ]),
-                ],
+            ->add('nom', TextType::class, [
+                'label' => 'Nom',
+                'attr' => ['class'=> 'form-control'],
+                'label_attr' => ['class'=> 'fw-bold']
             ])
-            ->add('plainPassword', PasswordType::class, [
+            ->add('prenom', TextType::class, [
+                'label' => 'Prénom',
+                'attr' => ['class'=> 'form-control'],
+                'label_attr' => ['class'=> 'fw-bold']
+                ])
+            ->add('email', EmailType::class, [
+                'label' => 'E-mail',
+                'attr' => ['class' => 'form-control'],
+                'label_attr' => ['class' => 'fw-bold']
+            ])        
+            ->add('telephone', NumberType::class, ['attr' => [
+                'class'=> 'form-control'],
+                'label_attr' => ['class'=> 'fw-bold'],
+                'label' => 'Téléphone ',
+            ])
+            ->add('Mot_de_passe', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
@@ -53,6 +60,19 @@ class RegistrationFormType extends AbstractType
                         'max' => 4096,
                     ]),
                 ],
+            ])
+            ->add('Accepter_les_termes_et_conditions', CheckboxType::class, [
+                'mapped' => false,
+                'constraints' => [
+                    new IsTrue([
+                        'message' => 'You should agree to our terms.',
+                    ]),
+                ],
+            ])
+            ->add('sinscrire', SubmitType::class, [
+                'label' => 'S\'inscrire',
+                'attr' => ['class' => 'btn bg-primary text-white m-4'],
+                'row_attr' => ['class' => 'text-center'],
             ])
         ;
     }

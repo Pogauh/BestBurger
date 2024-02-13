@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{parent()}}Modification{% endblock %}
+
+{% block body %}
+    <h1 class="text-center text-primary">Modification du profil</h1>
+    
+    {{form(form)}}
+
+{% endblock %}

@@ -1,31 +1,95 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Se connecter{% endblock %}
 
 {% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
 
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+<style>
+
+    body {
+        background-color: #f8f9fa;
+    }
+    
+    .container {
+        padding-top: 2rem;
+    }
+    
+    .card {
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+    
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+    
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+    .arrondie {
+        border-radius: 10px;
+    }
+
+
+    
+</style>
+
+<div class="container">
+    <div class="row justify-content-center align-items-center min-vh-10">
+        <div class="col-md-4">
+            <div class="card arrondie">
+                <div class="card-body">
+                    <h1 class="h3 mb-3 font-weight-normal text-center">Se connecter</h1>
+                    
+                    {% if error %}
+                        <div class="alert alert-danger text-center">
+                            {{ error.messageKey|trans(error.messageData, 'security') }}
+                        </div>
+                    {% endif %}
+
+                    {% if app.user %}
+                        <div class="mb-3 text-center">
+                            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                        </div>
+                    {% endif %}
+
+                    <form method="post" class="text-center">
+                        <div class="form-group">
+                            <label for="inputEmail" class="sr-only">Email address</label>
+                            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" placeholder="Adresse e-mail" autocomplete="email" required autofocus>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputPassword" class="sr-only">Password</label>
+                            <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Mot de passe" autocomplete="current-password" required>
+                        </div>
+                        <div>
+                            <p>Pas encore inscrit ?
+                                <a href="{{ path('app_register') }}" style="text-decoration: underline;
+                                    color: blue;"">Inscrivez-vous ici
+                                </a>
+                                <a href="{{path('app_forgot_password_request')}}">Mot de passe oublié
+
+                                </a>
+                            </p>
+                        </div>
+
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                        <button class="btn btn-lg btn-primary arrondie mt-5" type="submit">Connexion</button>
+                    </form>
+                </div>
+            </div>
         </div>
-    {% endif %}
-
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
-
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
-</form>
+    </div>
+</div>
 {% endblock %}
+
+
+
+
+
+
+
+

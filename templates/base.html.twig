@@ -4,12 +4,9 @@
         <meta charset="UTF-8">
         <title>{% block title %}Burger{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
-        <!--Boostraps CSS-->
     <link href="https://bootswatch.com/5/lux/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">   -->
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
@@ -22,47 +19,129 @@
     </head>
     <body>
 
-    <!--Barre de Navigation-->
+  
+    <button class="button-17 mt-[70px] ml-[10%] z-10">06.01.02.03.04</button>
 
-    <!-- Bouton rectangle en haut à gauche -->
-    <button class="button-17 top-left">06.01.02.03.04</button>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
 
-    {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
-      <li class="nav-item">
-        <a class="nav-link text-white" href="{{path('app_login')}}">Se connecter
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-white" href="{{path('app_register')}}">S'inscrire
-        </a>
-      </li>
+    <div class="button-17 mt-[70px] ml-[80%] d-flex justify-content-center align-items-center z-10">
+      <a href="{{path('account')}}">Mon compte </a>
+    </div>
+    <div class="button-17 mt-[100px] ml-[80%] d-flex justify-content-center align-items-center z-10">
+      <a href="{{path('app_logout')}}">Déconnexion</a>
+    </div>
+
     {% else %}
-      <a class="button-17 top-right" href="{{ path('account') }}">Mon compte
-      </a>
+
+    <div class="button-17 mt-[70px]  ml-[80%] d-flex justify-content-center align-items-center z-10">
+      <a href="{{path('app_login')}}">Se connecter </a>
+    </div>
+
+
     {% endif %}
+
+    {% if is_granted('ROLE_ADMIN')%}
+    <div class="button-17 mt-5 ml-[90%] d-flex justify-content-center align-items-center z-10">
+      <a href="{{path('gestion')}}">Gestion site</a>
+    </div>
+    
+    {% endif %}
+
+    <div class="fixed z-10 ml-[90%] block lg:hidden">
+      <button class="buttonNavPetit relative group">
+        <div class="relative flex overflow-hidden items-center justify-center rounded-full w-[50px] h-[50px] transform transition-all bg-slate-700 ring-0 ring-gray-300 hover:ring-8 group-focus:ring-4 ring-opacity-30 duration-200 shadow-md">
+          <div class="flex flex-col justify-between w-[20px] h-[20px] transform transition-all duration-300 origin-center overflow-hidden">
+            <div class="bg-white h-[2px] w-7 transform transition-all duration-300 origin-left group-focus:rotate-[42deg]"></div>
+            <div class="bg-white h-[2px] w-1/2 rounded transform transition-all duration-300 group-focus:-translate-x-10"></div>
+            <div class="bg-white h-[2px] w-7 transform transition-all duration-300 origin-left group-focus:-rotate-[42deg]"></div>
+          </div>
+        </div>
+      </button>
+    </div>
+  
+
     
 
-
-    <!-- Logo au milieu en haut -->
     <a href="{{path('index')}}">
-      <img src="assets/burgerSF.png" alt="Logo" class="logo">
+      <img src="assets/burgerSF.png" alt="Logo" class="logo z-10">
     </a>
-        
-
-    <!-- Navbar -->
-    <nav class="navbar">
+  
+    <!-- Navbar grand écran -->
+    <nav class="navbar navbarGrand hidden lg:block">
       <ul>
         <li><a href="{{path('burger')}}">Burger</a></li>
         <li><a href="{{path('wrap')}}">wrap</a></li>
         <li><a href="{{path('sandwich')}}">Sandwich</a></li>
         <li><a href="{{path('petiteFaim')}}">Petite faim</a></li>
         <li><a href="{{path('dessert')}}">Dessert</a></li>
-        <li><a href="#frites">Frites</a></li>
+        <li><a href="{{path('fidelite')}}">Fidelité</a></li>
       </ul>
     </nav>
 
+    <!-- Navbar petit écran -->
+<nav class="navbarPetit rounded-md w-72 h-screen flex-col justify-between hidden lg:hidden z-10 mt-[0px] ">
+	<div class=" bg-white h-full">
+		<div class="flex  justify-center py-10 shadow-sm pr-4">
+			<div class="pl-2">
+
+				<p class="text-2xl font-bold text-indigo-600">Best</h1>
+					<span class="text-xs block text-gray-800">Burger</span>
+			</div>
+		</div>
+		<div class="pl-10">
+
+			<ul class="space-y-8 pt-10">
+				<li class="flex space-x-4 items-center hover:text-indigo-600 cursor-pointer">
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+						stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+							d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
+					</svg>
+					<a href="#">Burger</a>
+				</li>
+				<li class="flex space-x-4 items-center hover:text-indigo-600 cursor-pointer">
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+						stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+							d="M13 10V3L4 14h7v7l9-11h-7z" />
+					</svg>
+					<a href="#">Galette</a>
+				</li>
+				<li class="flex space-x-4 items-center hover:text-indigo-600 cursor-pointer">
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+						stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+							d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+					</svg>
+					<a href="#">Petite faim</a>
+				</li>
+				<li class="flex space-x-4 items-center hover:text-indigo-600 cursor-pointer">
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+						stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+							d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+					</svg>
+					<a href="#">Dessert</a>
+				</li>
+				<li class="flex space-x-4 items-center hover:text-indigo-600 cursor-pointer">
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+						stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+							d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+					</svg>
+					<a href="#">Fidelité</a>
+				</li>
+			</ul>
+
+		</div>
+	</div>
+	
+</nav>
+
+    
+  
+
     <div class="h-52 bg-white-500">
-      <!-- Contenu de votre div -->
     </div>
 
 
@@ -77,15 +156,52 @@
       <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"> </script>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
-      <script type="module" src="JS/main.js"> </script>
+      <script type="module" src="JS/main.js"></script>
+      <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+
     </body>
 
-    <div class="bg-red-500 w-full h-40 cm mt-10" id="info1"></div>
-    <div class="bg-black w-full h-40 cm"></div>
-
-
-   
-
+    <div class="bg-black w-full h-40 cm mt-10 diagonal-container d-flex flex-wrap justify-center items-center " id="info1">
+      <div class="w-[15%] p-4 text-white text-center bg-gray-800 hover:bg-gray-700 transition duration-300 transform hover:scale-100">
+          <a href="{{path('burger')}}" class="text-xl font-bold">
+              Burger
+          </a>
+      </div>
+      <div class="w-[15%] p-4 text-white text-center bg-gray-800 hover:bg-gray-700 transition duration-300 transform hover:scale-100">
+          <a href="{{path('burger')}}" class="text-xl font-bold">
+              Galette
+          </a>
+      </div>
+      <div class="w-[15%] p-4 text-white text-center bg-gray-800 hover:bg-gray-700 transition duration-300 transform hover:scale-100">
+          <a href="{{path('burger')}}" class="text-xl font-bold">
+              Sandwich
+          </a>
+      </div>
+      <div class="w-[15%] p-4 text-white text-center bg-gray-800 hover:bg-gray-700 transition duration-300 transform hover:scale-100">
+        <a href="{{path('burger')}}" class="text-xl font-bold">
+          Petite faim 
+      </a>  
+      </div>
+      <div class="w-[15%] p-4 text-white text-center bg-gray-800 hover:bg-gray-700 transition duration-300 transform hover:scale-100">
+        <a href="{{path('burger')}}" class="text-xl font-bold">
+          Dessert
+      </a>
+      </div>
+      <div class="w-[15%] p-4 text-white text-center bg-gray-800 hover:bg-gray-700 transition duration-300 transform hover:scale-100">
+        <a href="{{path('burger')}}" class="text-xl font-bold">
+          Fidelité
+      </a>      
+    </div>
+  </div>
+  
+    <div class="bg-black w-full" id="info2">
+      <div class="text-white mr-[30%] ml-[30%]">
+        <a>
+          Où nous trouver ? : 13 rue de l'Eglise, Henin-beaumont 62110.
+        </a>
+        <div style="width: 100%"><iframe width="100%" height="600" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=13%20rue%20de%20l'Eglise%2062110+(Best%20burger)&amp;t=&amp;z=17&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"><a href="https://www.gps.ie/">gps vehicle tracker</a></iframe></div>
+      </div>
+    </div>
 </html>
 
 

@@ -3,21 +3,64 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
 
-    <h1>Register</h1>
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
 
-    {{ form_errors(registrationForm) }}
+    .container {
+        padding-top: 2rem;
+    }
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+    .card {
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+
+    .arrondie {
+        border-radius: 10px;
+    }
+</style>
+
+<div class="container">
+    <div class="row justify-content-center align-items-center min-vh-10">
+        <div class="col-md-4">
+            <div class="card arrondie">
+                <div class="card-body">
+                    <h1 class="h3 mb-3 font-weight-normal text-center">Inscription</h1>
+
+                    {% for flash_error in app.flashes('verify_email_error') %}
+                        <div class="alert alert-danger text-center">
+                            {{ flash_error }}
+                        </div>
+                    {% endfor %}
+
+                    {{ form_errors(registrationForm) }}
+
+                    {{ form_start(registrationForm) }}
+
+
+                    {{ form_row(registrationForm.nom, {'label_attr': {'class': 'col-form-label, d-flex'}}) }}
+                    {{ form_row(registrationForm.prenom, {'label_attr': {'class': 'col-form-label, d-flex, mt-3'}}) }}
+                    {{ form_row(registrationForm.email, {'label_attr': {'class': 'col-form-label, d-flex, mt-3'}}) }}
+                    {{ form_row(registrationForm.telephone, {'label_attr': {'class': 'col-form-label, d-flex, mt-3'}}) }}
+                    {{ form_row(registrationForm.Mot_de_passe, {'label_attr': {'class': 'col-form-label, d-flex, mt-4'}}) }}
+                    {{ form_row(registrationForm.Accepter_les_termes_et_conditions, {'label_attr': {'class': 'col-form-label'}}) }}
+                    {{ form_end(registrationForm) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}

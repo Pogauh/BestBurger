@@ -5,6 +5,23 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\String\Slugger\SluggerInterface;
+
+
+
+
+use App\Form\ModifAccountType;
+use App\Form\AddProduitType;
+
+
+
+use App\Entity\User;
+use App\Entity\Produit;
+
+
+
+
 
   
 use Doctrine\ORM\EntityManagerInterface;
@@ -95,4 +112,89 @@ class BaseController extends AbstractController
         return $this->render('produit/petiteFaim.html.twig', [
         ]);
     }
+
+    #[Route('/fidelite', name: 'fidelite')]
+    public function fidelite(): Response
+    {
+        return $this->render('base/fidelite.html.twig', [
+        ]);
+    }
+
+
+    #[Route('modifAccount', name: 'modifAccount')]
+    public function modifAccount(Request $request, EntityManagerInterface $entityManagerInterface): Response
+    {
+    $user = $this->getUser();
+
+    $form = $this->createForm(ModifAccountType::class, $user);
+
+    if ($request->isMethod('POST')) {
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManagerInterface->flush();
+
+            $this->addFlash('notice', 'Modifications effectuées');
+            return $this->redirectToRoute('account');
+        } else {
+            $this->addFlash('notice', 'Modifications non effectuées');
+        }
+    }
+
+    return $this->render('base/modifAccount.html.twig', [
+        'form' => $form->createView(),
+    ]);
+}
+
+#[Route('/gestion', name: 'gestion')]
+    public function gestion(): Response
+    {
+        return $this->render('base/gestion.html.twig', [
+        ]);
+    }
+
+#[Route('/addProduit', name: 'addProduit')]
+    public function addProduit(Request $request, SluggerInterface $slugger, EntityManagerInterface $entityManagerInterface): Response
+    {
+        $produit = new Produit();
+
+        $form = $this->createForm(AddProduitType::class, $produit);
+
+        if($request->isMethod('POST')){
+            $form->handleRequest($request);
+            if ($form->isSubmitted()&&$form->isValid()){
+
+
+                //C'est pour enregistré les image dans le produit
+                
+                $img = $form->get('image')->getData();
+                if($img){
+
+                    $nomImage= pathinfo($img->getClientOriginalName(), PATHINFO_FILENAME);
+                    $nomImage= $slugger->slug($nomImage);
+                    $nomImage = $nomImage.'-'.uniqid().'.'.$img->guessExtension();
+                    $produit->setImage($nomImage);
+                       try{                 
+                           $img->move($this->getParameter('image_directory'), $nomImage);
+                           $this->addFlash('notice', 'Fichier envoyé');
+                       }
+                       catch(FileException $e){
+                           $this->addFlash('notice', 'Erreur d\'envoi');
+                       } 
+                }
+
+
+                $entityManagerInterface->persist($produit);
+                $entityManagerInterface->flush();
+                
+
+            }
+
+        }
+
+        return $this->render('base/addProduit.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
 }
