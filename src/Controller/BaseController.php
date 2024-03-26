@@ -14,16 +14,9 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use App\Form\ModifAccountType;
 use App\Form\AddProduitType;
 
-
-
 use App\Entity\User;
 use App\Entity\Produit;
 
-
-
-
-
-  
 use Doctrine\ORM\EntityManagerInterface;
 
 
@@ -196,5 +189,8 @@ class BaseController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    
+
 
 }

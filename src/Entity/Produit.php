@@ -7,21 +7,20 @@ use App\Repository\ProduitRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
 use Symfony\Component\Serializer\Annotation\Groups;
-
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
-
+//-----------------------------------------------------------------
+use ApiPlatform\Metadata\Delete;
 
 #[ApiResource( 
     operations:[new Get(normalizationContext:['groups'=>'produit:item']),
             new GetCollection(normalizationContext:['groups'=>'produit:list']),
-            ]
-            )]
-            #[ApiFilter(OrderFilter::class, properties:['nom' => 'ASC'])]
-            
+            new Delete(),
+        ]
+)]
 
+#[ApiFilter(OrderFilter::class, properties:['nom' => 'ASC'])]
 
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
 class Produit

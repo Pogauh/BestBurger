@@ -1,4 +1,4 @@
-import {getProduits} from './api_produit.js ';
+import {getProduits, deleteProduit} from './api_produit.js ';
 
 document.addEventListener("DOMContentLoaded", function() {
     var navbarGrand = document.querySelector(".navbarGrand");
@@ -19,9 +19,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 navbarGrand.classList.remove("scrolled");
             }
         }
-    
-
-        // Ajouter ou supprimer la classe "small-logo" du logo
+        
         if (window.scrollY > 100) {
             logo.classList.add("small-logo");
         } else {
@@ -49,11 +47,9 @@ document.addEventListener("DOMContentLoaded", function() {
                     container.appendChild(divLigne);
                 }
     
-
-
-
                 var divCard = document.createElement("div");
-                divCard.classList.add("w-60", "bg-white", "border", "border-gray-200", "rounded-lg", "shadow", "dark:bg-gray-800", "dark:border-gray-700", "mx-10");
+                divCard.classList.add("w-60", "bg-white", "border", "border-gray-200", "rounded-lg",
+                "shadow", "dark:bg-gray-800", "dark:border-gray-700", "mx-10");
                 
                 var img = document.createElement("img");
                 img.src = "assets/"+produit.image;
@@ -70,17 +66,42 @@ document.addEventListener("DOMContentLoaded", function() {
                 desc.innerText = produit.description;
                 desc.classList.add("text-sm");
 
-               
+                var br = document.createElement("br");
+
+                var prixMenu = document.createElement("a");
+                prixMenu.innerText = "Prix menu : "+produit.prixMenu;
+                prixMenu.classList.add("text-sm","font-bold");
+
+                var br2 = document.createElement("br");
+
+                var prixSeul = document.createElement("a");
+                prixSeul.innerText = "Prix Burger seul : "+produit.prixSeul;
+                prixSeul.classList.add("text-sm","font-bold");
+
+                
+
+                var boutonSupprimer = document.createElement("button");
+                boutonSupprimer.innerText = "Supprimer";
+                boutonSupprimer.classList.add("text-sm", "font-bold", "text-red-500", "hover:text-red-700", "cursor-pointer");
+
+                boutonSupprimer.addEventListener("click", function () {
+                    supprimerProduit(produit.id);
+                });
+
+
                 divLigne.appendChild(divCard);
                 divCard.appendChild(img);
                 divCard.appendChild(divDetail);
                 divDetail.appendChild(titre);
                 divDetail.appendChild(desc);
-
-    
+                divDetail.appendChild(br);
+                divDetail.appendChild(prixMenu);
+                divDetail.appendChild(br2);
+                divDetail.appendChild(prixSeul);
+                divDetail.appendChild(boutonSupprimer);
                 elementsDansLaLigne++;
-    
-                // Si nous avons atteint le nombre maximum d'éléments par ligne, réinitialiser le compteur
+                // Si nous avons atteint le nombre maximum d'éléments par ligne,
+                //réinitialiser le compteur
                 if (elementsDansLaLigne === elementsParLigne) {
                     elementsDansLaLigne = 0;
                 }
@@ -90,6 +111,24 @@ document.addEventListener("DOMContentLoaded", function() {
             console.log('erreur :', erreur);
         }
     }
+
+
+
+
+
+
+    //-------------------------------------------------------------------------------------------------
+
+    function supprimerProduit(id) {
+        deleteProduit(id)
+            .then(data => {
+                console.log('Produit supprimé avec succès:', data);
+                // Vous pouvez également mettre à jour l'interface utilisateur ici, si nécessaire
+            })
+            .catch(error => {
+                console.error('Erreur lors de la suppression du produit:', error);
+            });
+    }    
 
     //-------------------------------------------------------------------------------------------------
 
@@ -102,7 +141,7 @@ document.addEventListener("DOMContentLoaded", function() {
             var container = document.getElementById('container');
             var elementsParLigne = 4;
             var elementsDansLaLigne = 0;
-            var divLigne;  // Variable pour stocker la ligne actuelle
+            var divLigne;  
             console.log(produits);
             for (let produit of lesProduits) {
             if (produit.categorie.id === 3){
@@ -167,7 +206,7 @@ document.addEventListener("DOMContentLoaded", function() {
             var container = document.getElementById('container');
             var elementsParLigne = 4;
             var elementsDansLaLigne = 0;
-            var divLigne;  // Variable pour stocker la ligne actuelle
+            var divLigne;  
             console.log(produits);
             for (let produit of lesProduits) {
             if (produit.categorie.id === 2){
@@ -231,7 +270,7 @@ document.addEventListener("DOMContentLoaded", function() {
             var container = document.getElementById('container');
             var elementsParLigne = 4;
             var elementsDansLaLigne = 0;
-            var divLigne;  // Variable pour stocker la ligne actuelle
+            var divLigne;  
             console.log(produits);
             for (let produit of lesProduits) {
             if (produit.categorie.id === 4){
@@ -280,6 +319,9 @@ document.addEventListener("DOMContentLoaded", function() {
             console.log('erreur :', erreur);
         }
     }
+
+   
+
 
 
 

@@ -17,25 +17,18 @@ use ApiPlatform\Metadata\Patch;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 
-
 /**
  * @ORM\HasLifecycleCallbacks
  * @ORM\EntityListeners({"App\EventListener\UserClientListener"})
  */
 
-
 #[ApiResource( 
     operations:[new Get(normalizationContext:['groups'=>'user:item']),
             new GetCollection(normalizationContext:['groups'=>'user:list']),
             new Patch(),
-            ]
-            )]
-            #[ApiFilter(OrderFilter::class, properties:['nom' => 'ASC'])]
+])]
+#[ApiFilter(OrderFilter::class, properties:['nom' => 'ASC'])]
             
-
-
-
-
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
